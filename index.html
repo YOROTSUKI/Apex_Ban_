@@ -123,7 +123,7 @@
 
                 const isPredCell = document.createElement('td');
                 isPredCell.textContent = item.is_pred ? "Predator" : "Master";
-                if (time.time > '2024-05-08') {
+                if (item.time > '2024-05-08') {
                     if (item.is_pred) {
                         predator_count += 1
                     }
