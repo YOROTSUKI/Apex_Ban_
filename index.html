@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,80 +10,88 @@
             width: 100%;
             border-collapse: collapse;
         }
-        table, th, td {
+
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
-        th, td {
+
+        th,
+        td {
             padding: 8px;
             text-align: left;
         }
+
         th {
             background-color: #f2f2f2;
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
 
-<label for="dataType">Select Data Type:</label>
-<select id="dataType" onchange="loadData()">
-    <option value="total_ban_detail.json">Ban Details</option>
-    <option value="total_ban_list.json">Total Ban Count</option>
-</select>
+    <label for="dataType">Select Data Type:</label>
+    <select id="dataType" onchange="loadData()">
+        <option value="total_ban_detail.json">Ban Details</option>
+        <option value="total_ban_list.json">Total Ban Count</option>
+    </select>
 
-<br><br>
+    <br><br>
 
-<div id="filters">
-    <label for="startDate">Start Date:</label>
-    <input type="date" id="startDate">
-    <label for="endDate">End Date:</label>
-    <input type="date" id="endDate">
-    <button onclick="filterByDate()">Filter</button>
-    <p id="total_ban">Total banned:<p>
-</div>
+    <div id="filters">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+        <button onclick="filterByDate()">Filter</button>
+        <p id="total_ban">Total banned:
+        <p>
+    </div>
 
-<table id="data-table">
-    <thead>
-        <tr>
-            <th onclick="sortTable('time')">Time</th>
-            <th>User Name</th>
-            <th>User Link</th>
-            <th>Is Pred</th>
-        </tr>
-    </thead>
-    <tbody>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th onclick="sortTable('time')">Time</th>
+                <th>User Name</th>
+                <th>User Link</th>
+                <th>Is Pred</th>
+            </tr>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
-<script>
-    let banData = [];
-    let otherData = [];
+    <script>
+        let banData = [];
+        let otherData = [];
 
-    document.addEventListener('DOMContentLoaded', function() {
-        loadData();
-    });
+        document.addEventListener('DOMContentLoaded', function () {
+            loadData();
+        });
 
-    function loadData() {
-        const selectedData = document.getElementById('dataType').value;
-        fetch(selectedData)
-            .then(response => response.json())
-            .then(data => {
-                if (selectedData === 'total_ban_detail.json') {
-                    banData = data;
-                    renderTable(banData);
-                } else {
-                    otherData = data;
-                    renderOtherDataTable(otherData);
-                }
-            })
-            .catch(error => console.error('Error fetching the JSON:', error));
-    }
+        function loadData() {
+            const selectedData = document.getElementById('dataType').value;
+            fetch(selectedData)
+                .then(response => response.json())
+                .then(data => {
+                    if (selectedData === 'total_ban_detail.json') {
+                        banData = data;
+                        renderTable(banData);
+                    } else {
+                        otherData = data;
+                        renderOtherDataTable(otherData);
+                    }
+                })
+                .catch(error => console.error('Error fetching the JSON:', error));
+        }
 
-    function renderTable(data) {
-        const tableHead = document.querySelector('#data-table thead');
-        const tableBody = document.querySelector('#data-table tbody');
-        tableHead.innerHTML = `
+        function renderTable(data) {
+            const tableHead = document.querySelector('#data-table thead');
+            const tableBody = document.querySelector('#data-table tbody');
+            tableHead.innerHTML = `
             <tr>
                 <th onclick="sortTable('time')">Time</th>
                 <th>User Name</th>
@@ -90,110 +99,119 @@
                 <th>Is Pred</th>
             </tr>
         `;
-        tableBody.innerHTML = '';
-        var master_count = 0;
-        var predator_count = 0;
-        data.forEach(item => {
-            const row = document.createElement('tr');
+            tableBody.innerHTML = '';
+            var master_count = 0;
+            var predator_count = 0;
+            data.forEach(item => {
+                const row = document.createElement('tr');
 
-            const timeCell = document.createElement('td');
-            timeCell.textContent = item.time;
-            row.appendChild(timeCell);
+                const timeCell = document.createElement('td');
+                timeCell.textContent = item.time;
+                row.appendChild(timeCell);
 
-            const userNameCell = document.createElement('td');
-            userNameCell.textContent = item.user_name;
-            row.appendChild(userNameCell);
+                const userNameCell = document.createElement('td');
+                userNameCell.textContent = item.user_name;
+                row.appendChild(userNameCell);
 
-            const userLinkCell = document.createElement('td');
-            const userLink = document.createElement('a');
-            userLink.href = item.user_link;
-            userLink.textContent = "Profile Link";
-            userLink.target = "_blank";
-            userLinkCell.appendChild(userLink);
-            row.appendChild(userLinkCell);
+                const userLinkCell = document.createElement('td');
+                const userLink = document.createElement('a');
+                userLink.href = item.user_link;
+                userLink.textContent = "Profile Link";
+                userLink.target = "_blank";
+                userLinkCell.appendChild(userLink);
+                row.appendChild(userLinkCell);
 
-            const isPredCell = document.createElement('td');
-            isPredCell.textContent = item.is_pred ? "Predator" : "Master";
-            if (item.is_pred) {
-                predator_count +=1 
-            }
-            else {
-                master_count +=1 
-            }
-            row.appendChild(isPredCell);
+                const isPredCell = document.createElement('td');
+                isPredCell.textContent = item.is_pred ? "Predator" : "Master";
+                if (time.time > '2024-05-08') {
+                    if (item.is_pred) {
+                        predator_count += 1
+                    }
+                    else {
+                        master_count += 1
+                    }
+                }
 
-            tableBody.appendChild(row);
-        });
-        document.getElementById("total_ban").textContent = `Total ban: ${data.length} (Predator: ${predator_count}, Master: ${master_count})`;
-    }
+                row.appendChild(isPredCell);
 
-    function renderOtherDataTable(data) {
-        const tableHead = document.querySelector('#data-table thead');
-        const tableBody = document.querySelector('#data-table tbody');
-        tableHead.innerHTML = `
+                tableBody.appendChild(row);
+            });
+            document.getElementById("total_ban").textContent = `Total ban(S21): ${data.length} (Predator: ${predator_count}, Master: ${master_count})`;
+        }
+
+        function renderOtherDataTable(data) {
+            const tableHead = document.querySelector('#data-table thead');
+            const tableBody = document.querySelector('#data-table tbody');
+            tableHead.innerHTML = `
             <tr>
                 <th>Date</th>
                 <th>Predator</th>
                 <th>Master</th>
             </tr>
         `;
-        tableBody.innerHTML = '';
-        const dataArray = Object.entries(data).map(([date, values]) => ({
-            time: date,
-            Predator: values['Predator'],
-            Master: values['Master']
-        }));
-        var master_count = 0;
-        var predator_count = 0;
-        dataArray.forEach(item => {
-            const row = document.createElement('tr');
+            tableBody.innerHTML = '';
+            const dataArray = Object.entries(data).map(([date, values]) => ({
+                time: date,
+                Predator: values['Predator'],
+                Master: values['Master']
+            }));
+            var master_count = 0;
+            var predator_count = 0;
+            dataArray.forEach(item => {
+                const row = document.createElement('tr');
 
-            const dateCell = document.createElement('td');
-            dateCell.textContent = item.time;
-            row.appendChild(dateCell);
+                const dateCell = document.createElement('td');
+                dateCell.textContent = item.time;
+                row.appendChild(dateCell);
 
-            const lieShaCell = document.createElement('td');
-            lieShaCell.textContent = item['Predator'];
-            predator_count+=item['Predator'];
-            row.appendChild(lieShaCell);
+                const lieShaCell = document.createElement('td');
+                lieShaCell.textContent = item['Predator'];
 
-            const daShiCell = document.createElement('td');
-            daShiCell.textContent = item['Master'];
-            master_count+=item['Master']
-            row.appendChild(daShiCell);
+                row.appendChild(lieShaCell);
 
-            tableBody.appendChild(row);
-        });
-        document.getElementById('total_ban').textContent =  `Total ban: ${master_count+predator_count} (Predator: ${predator_count}, Master: ${master_count})`;
-    }
+                const daShiCell = document.createElement('td');
+                daShiCell.textContent = item['Master'];
 
-    function sortTable(key) {
-        const selectedData = document.getElementById('dataType').value;
-        const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
-        const sortedData = [...data].sort((a, b) => {
-            const dateA = new Date(a[key]);
-            const dateB = new Date(b[key]);
-            return dateA - dateB;
-        });
-        const isAscending = document.querySelector('th').classList.toggle('ascending');
-        if (!isAscending) {
-            sortedData.reverse();
+                row.appendChild(daShiCell);
+
+                if (item.time > '2024-05-08') {
+                    predator_count += item['Predator'];
+                    master_count += item['Master']
+                }
+
+                tableBody.appendChild(row);
+            });
+            document.getElementById('total_ban').textContent = `Total ban(S21): ${master_count + predator_count} (Predator: ${predator_count}, Master: ${master_count})`;
         }
-        selectedData === 'total_ban_detail.json' ? renderTable(sortedData) : renderOtherDataTable(sortedData);
-    }
 
-    function filterByDate() {
-        const selectedData = document.getElementById('dataType').value;
-        const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
-        const startDate = new Date(document.getElementById('startDate').value);
-        const endDate = new Date(document.getElementById('endDate').value);
-        const filteredData = data.filter(item => {
-            const itemDate = new Date(item.time || item['Date']);
-            return itemDate >= startDate && itemDate <= endDate;
-        });
-        selectedData === 'total_ban_detail.json' ? renderTable(filteredData) : renderOtherDataTable(filteredData);
-    }
-</script>
+        function sortTable(key) {
+            const selectedData = document.getElementById('dataType').value;
+            const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
+            const sortedData = [...data].sort((a, b) => {
+                const dateA = new Date(a[key]);
+                const dateB = new Date(b[key]);
+                return dateA - dateB;
+            });
+            const isAscending = document.querySelector('th').classList.toggle('ascending');
+            if (!isAscending) {
+                sortedData.reverse();
+            }
+            selectedData === 'total_ban_detail.json' ? renderTable(sortedData) : renderOtherDataTable(sortedData);
+        }
+
+        function filterByDate() {
+            const selectedData = document.getElementById('dataType').value;
+            const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
+            const startDate = new Date(document.getElementById('startDate').value);
+            const endDate = new Date(document.getElementById('endDate').value);
+            const filteredData = data.filter(item => {
+                const itemDate = new Date(item.time || item['Date']);
+                return itemDate >= startDate && itemDate <= endDate;
+            });
+            selectedData === 'total_ban_detail.json' ? renderTable(filteredData) : renderOtherDataTable(filteredData);
+        }
+    </script>
 
 </body>
+
 </html>
