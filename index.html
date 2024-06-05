@@ -136,7 +136,7 @@
 
                 tableBody.appendChild(row);
             });
-            document.getElementById("total_ban").textContent = `Total ban(S21): ${data.length} (Predator: ${predator_count}, Master: ${master_count})`;
+            document.getElementById("total_ban").textContent = `Total ban(S21): ${predator_count + master_count} (Predator: ${predator_count}, Master: ${master_count})`;
         }
 
         function renderOtherDataTable(data) {
