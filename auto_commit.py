@@ -11,7 +11,7 @@ def add_changes():
     subprocess.run(["git", "add", "."])
 
 def commit_changes():
-    subprocess.run(["git", "commit", "-m", f"Auto-commit: Update ban data ({arrow.now().tz('+08:00').format('YYYY-MM-DD HH:mm:ss')} GMT+08:00)"])
+    subprocess.run(["git", "commit", "-m", f"Auto-commit: Update ban data ({arrow.now().to('+08:00').format('YYYY-MM-DD HH:mm:ss')} GMT+08:00)"])
 
 def push_changes():
     subprocess.run(["git", "push"])
