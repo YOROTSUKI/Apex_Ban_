@@ -26,7 +26,7 @@ def main():
 
 if __name__ == "__main__":
     while True:
-        os.system("../ban_spider.py")
+        os.system("python3 ../ban_spider.py")
         main()
         
         time.sleep(3600)
