@@ -29,4 +29,4 @@ if __name__ == "__main__":
         os.system("python3 ../ban_spider.py")
         main()
         
-        time.sleep(3600)
+        time.sleep(300) # 5min
