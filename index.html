@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Ban</title>
     <style>
         table {
@@ -28,43 +29,65 @@
             cursor: pointer;
         }
     </style>
+    <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <span>Github repository address:<a href="https://github.com/YOROTSUKI/Apex_Ban_">link</a></span>
-    <br><br>
-    <label for="dataType">Select Data Type:</label>
-    <select id="dataType" onchange="loadData()">
-        <option value="total_ban_detail.json">Ban Details</option>
-        <option value="total_ban_list.json">Total Ban Count</option>
-    </select>
+    <div class="container-fluid">
+        <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
+            <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab1" role="tab" data-toggle="tab"
+                    aria-controls="home" aria-expanded="true" onclick="loadData('total_ban_detail.json')">Ban Detail</a> </li>
+            <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab"
+                    aria-controls="hats" onclick="loadData('total_ban_list.json')">Ban Count</a> </li>
+        </ul>
 
-    <br><br>
-
-    <div id="filters">
-        <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate">
-        <label for="endDate">End Date:</label>
-        <input type="date" id="endDate">
-        <button onclick="filterByDate()">Filter</button>
-        <p id="total_ban">Total banned:
-        <p>
+        <br><br>
+        <div id="filters">
+            <label for="startDate">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate">End Date:</label>
+            <input type="date" id="endDate">
+            <button onclick="filterByDate()">Filter</button>
+            <p id="total_ban">Total banned:
+            <p>
+        </div>
+        <br>
+        <!-- Content Panel -->
+        <div id="clothingnavcontent1" class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="home1" aria-labelledby="hometab1">
+                <table id="ban_detail_table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable('time')">Time</th>
+                            <th>User Name</th>
+                            <th>User Link</th>
+                            <th>Is Pred</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
+                <table id="ban_list_table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
+                <p>Dropdown content#1</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
+                <p>Dropdown content#2</p>
+            </div>
+        </div>
     </div>
 
-    <table id="data-table">
-        <thead>
-            <tr>
-                <th onclick="sortTable('time')">Time</th>
-                <th>User Name</th>
-                <th>User Link</th>
-                <th>Is Pred</th>
-            </tr>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table>
-
+    <script src="js/jquery-3.4.1.min.js"></script> 
+    <script src="js/popper.min.js"></script> 
+    <script src="js/bootstrap-4.4.1.js"></script> 
     <script>
         let banData = [];
         let otherData = [];
@@ -73,8 +96,8 @@
             loadData();
         });
 
-        function loadData() {
-            const selectedData = document.getElementById('dataType').value;
+        function loadData(selectedData='total_ban_detail.json') {
+            // const selectedData = document.getElementById('dataType').value;
             fetch(selectedData)
                 .then(response => response.json())
                 .then(data => {
@@ -90,8 +113,8 @@
         }
 
         function renderTable(data) {
-            const tableHead = document.querySelector('#data-table thead');
-            const tableBody = document.querySelector('#data-table tbody');
+            const tableHead = document.querySelector('#ban_detail_table thead');
+            const tableBody = document.querySelector('#ban_detail_table tbody');
             tableHead.innerHTML = `
             <tr>
                 <th onclick="sortTable('time')">Time</th>
@@ -141,8 +164,8 @@
         }
 
         function renderOtherDataTable(data) {
-            const tableHead = document.querySelector('#data-table thead');
-            const tableBody = document.querySelector('#data-table tbody');
+            const tableHead = document.querySelector('#ban_list_table thead');
+            const tableBody = document.querySelector('#ban_list_table tbody');
             tableHead.innerHTML = `
             <tr>
                 <th>Date</th>
@@ -212,7 +235,6 @@
             selectedData === 'total_ban_detail.json' ? renderTable(filteredData) : renderOtherDataTable(filteredData);
         }
     </script>
-
 </body>
 
 </html>
