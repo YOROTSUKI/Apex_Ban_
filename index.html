@@ -36,7 +36,8 @@
     <div class="container-fluid">
         <ul id="clothingnav1" class="nav nav-tabs" role="tablist">
             <li class="nav-item"> <a class="nav-link active" href="#home1" id="hometab1" role="tab" data-toggle="tab"
-                    aria-controls="home" aria-expanded="true" onclick="loadData('total_ban_detail.json')">Ban Detail</a> </li>
+                    aria-controls="home" aria-expanded="true" onclick="loadData('total_ban_detail.json')">Ban Detail</a>
+            </li>
             <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab"
                     aria-controls="hats" onclick="loadData('total_ban_list.json')">Ban Count</a> </li>
         </ul>
@@ -85,9 +86,9 @@
         </div>
     </div>
 
-    <script src="js/jquery-3.4.1.min.js"></script> 
-    <script src="js/popper.min.js"></script> 
-    <script src="js/bootstrap-4.4.1.js"></script> 
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.4.1.js"></script>
     <script>
         let banData = [];
         let otherData = [];
@@ -96,7 +97,7 @@
             loadData();
         });
 
-        function loadData(selectedData='total_ban_detail.json') {
+        function loadData(selectedData = 'total_ban_detail.json') {
             // const selectedData = document.getElementById('dataType').value;
             fetch(selectedData)
                 .then(response => response.json())
@@ -126,8 +127,18 @@
             tableBody.innerHTML = '';
             var master_count = 0;
             var predator_count = 0;
+
+            let ban_count = {};
+
             data.forEach(item => {
                 const row = document.createElement('tr');
+
+                if (typeof (ban_count[item.time]) == 'undefined') {
+                    ban_count[item.time] = {
+                        'pred': 0,
+                        'master': 0
+                    }
+                }
 
                 const timeCell = document.createElement('td');
                 timeCell.textContent = item.time;
@@ -147,6 +158,14 @@
 
                 const isPredCell = document.createElement('td');
                 isPredCell.textContent = item.is_pred ? "Predator" : "Master";
+
+                if (item.is_pred) {
+                    ban_count[item.time]['pred'] += 1
+                }
+                else {
+                    ban_count[item.time]['master'] += 1
+                }
+
                 if (item.time > '2024-05-08') {
                     if (item.is_pred) {
                         predator_count += 1
@@ -160,6 +179,7 @@
 
                 tableBody.appendChild(row);
             });
+            window.ban_count = ban_count;
             document.getElementById("total_ban").innerHTML = `<div style="white-space: pre;">
     🔨Total ban(S21)🔨:</b>${predator_count + master_count}</b>
      \t\t<img src="Img/apexpredator1.png" style="width: 25px; height: 25px;">Predator: ${predator_count}
@@ -178,37 +198,27 @@
             </tr>
         `;
             tableBody.innerHTML = '';
-            const dataArray = Object.entries(data).map(([date, values]) => ({
-                time: date,
-                Predator: values['Predator'],
-                Master: values['Master']
-            }));
+			const dataArray = Object.entries(window.ban_count);
+			dataArray.sort((a, b) => new Date(b[0]) - new Date(a[0]));
             var master_count = 0;
             var predator_count = 0;
-            dataArray.forEach(item => {
+            dataArray.forEach(([date, values]) => {
                 const row = document.createElement('tr');
-
                 const dateCell = document.createElement('td');
-                dateCell.textContent = item.time;
+                dateCell.textContent = date;
                 row.appendChild(dateCell);
 
                 const lieShaCell = document.createElement('td');
-                lieShaCell.textContent = item['Predator'];
+                lieShaCell.textContent = values['pred'];
 
                 row.appendChild(lieShaCell);
 
                 const daShiCell = document.createElement('td');
-                daShiCell.textContent = item['Master'];
+                daShiCell.textContent = values['master'];
 
                 row.appendChild(daShiCell);
-
-                if (item.time > '2024-05-08') {
-                    predator_count += item['Predator'];
-                    master_count += item['Master']
-                }
-
-                tableBody.appendChild(row);
-            });
+                tableBody.appendChild(row)
+            })
 
         }
 
