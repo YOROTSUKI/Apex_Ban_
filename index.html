@@ -160,7 +160,11 @@
 
                 tableBody.appendChild(row);
             });
-            document.getElementById("total_ban").textContent = `Total ban(S21): ${predator_count + master_count} (Predator: ${predator_count}, Master: ${master_count})`;
+            document.getElementById("total_ban").innerHTML = `<div style="white-space: pre;">
+    🔨Total ban(S21)🔨:</b>${predator_count + master_count}</b>
+     \t\t<img src="Img/apexpredator1.png" style="width: 25px; height: 25px;">Predator: ${predator_count}
+     \t\t<img src="Img/master1.png" style="width: 25px; height: 25px;">Master: ${master_count}
+  </div>`;
         }
 
         function renderOtherDataTable(data) {
@@ -205,7 +209,7 @@
 
                 tableBody.appendChild(row);
             });
-            document.getElementById('total_ban').textContent = `Total ban(S21): ${master_count + predator_count} (Predator: ${predator_count}, Master: ${master_count})`;
+
         }
 
         function sortTable(key) {
