@@ -1,0 +1,38 @@
+<span><b>2024-05-08</b> 到 <b>2024-06-11</b></span>
+<br></br>
+<div id="chart" style="height: 400px;width: 400px;"></div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+
+    var options = {
+        series: [1166, 3253],
+        chart: {
+            type: 'donut',
+        },
+        labels: ['被封禁', '绿玩'],
+        color:["#ff0000","#7cfc00"],
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }],
+        plotOptions: {
+      pie: {
+        expandOnClick: false
+      }
+    }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+    // var chart = new ApexCharts(document.querySelector('#chart'), options)
+    // chart.render()
+
+
+</script>

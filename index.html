@@ -39,7 +39,7 @@
                     aria-controls="home" aria-expanded="true" onclick="loadData('total_ban_detail.json')">Ban Detail</a>
             </li>
             <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab"
-                    aria-controls="hats" onclick="loadData('total_ban_list.json')">Ban Count</a> </li>
+                    aria-controls="hats" onclick="renderOtherDataTable()">Ban Count</a> </li>
         </ul>
 
         <br><br>
@@ -70,12 +70,7 @@
                 </table>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
-                <table id="ban_list_table">
-                    <thead>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div id="chart"></div>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
                 <p>Dropdown content#1</p>
