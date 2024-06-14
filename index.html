@@ -28,8 +28,18 @@
             background-color: #f2f2f2;
             cursor: pointer;
         }
+        #clothingnavcontent1,#filters {
+            width: 85%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #banned {
+            width: 20%;
+            margin: 0 auto;
+            text-align: center;
+        }
     </style>
-    <link href="css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/bootstrap-4.4.1.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -39,7 +49,7 @@
                     aria-controls="home" aria-expanded="true" onclick="loadData('total_ban_detail.json')">Ban Detail</a>
             </li>
             <li class="nav-item"> <a class="nav-link" href="#paneTwo1" role="tab" id="hatstab1" data-toggle="tab"
-                    aria-controls="hats" onclick="renderOtherDataTable()">Ban Count</a> </li>
+                    aria-controls="hats">Ban Count</a> </li>
         </ul>
 
         <br><br>
@@ -49,8 +59,22 @@
             <label for="endDate">End Date:</label>
             <input type="date" id="endDate">
             <button onclick="filterByDate()">Filter</button>
-            <p id="total_ban">Total banned:
-            <p>
+            <br><br>
+            <table id="banned">
+                <tr>
+                    <td>🔨Total banned(S21)🔨</td>
+                    <td id="Total_banned"></td>
+                </tr>
+                <tr>
+                    <td><img src="/static/Img/apexpredator1.png" style="width: 25px; height: 25px;">Predator</td>
+                    <td id="Predator_banned"></td>
+                </tr>
+                <tr>
+                    <td><img src="/static/Img/master1.png" style="width: 25px; height: 25px;">Master</td>
+                    <td id="Master_banned"></td>
+                </tr>
+            </table>
+
         </div>
         <br>
         <!-- Content Panel -->
@@ -59,7 +83,7 @@
                 <table id="ban_detail_table">
                     <thead>
                         <tr>
-                            <th onclick="sortTable('time')">Time</th>
+                            <th>Time</th>
                             <th>User Name</th>
                             <th>Profile Link</th>
                             <th>Rank Level</th>
@@ -70,189 +94,18 @@
                 </table>
             </div>
             <div role="tabpanel" class="tab-pane fade" id="paneTwo1" aria-labelledby="hatstab1">
-                <table id="ban_list_table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Predator</th>
-                            <th>Master</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="tabDropDownOne1" aria-labelledby="dropdownshoestab1">
-                <p>Dropdown content#1</p>
-            </div>
-            <div role="tabpanel" class="tab-pane fade" id="tabDropDownTwo1" aria-labelledby="dropdownbootstab1">
-                <p>Dropdown content#2</p>
+                <div id="chart"></div>
             </div>
         </div>
     </div>
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap-4.4.1.js"></script>
+    <script src="/static/js/jquery-3.4.1.min.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap-4.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/static/js/index.js"></script>
     <script>
-        let banData = [];
-        let otherData = [];
 
-        document.addEventListener('DOMContentLoaded', function () {
-            loadData();
-        });
-
-        function loadData(selectedData = 'total_ban_detail.json') {
-            // const selectedData = document.getElementById('dataType').value;
-            fetch(selectedData)
-                .then(response => response.json())
-                .then(data => {
-                    if (selectedData === 'total_ban_detail.json') {
-                        banData = data;
-                        renderTable(banData);
-                    } else {
-                        otherData = data;
-                        renderOtherDataTable(otherData);
-                    }
-                })
-                .catch(error => console.error('Error fetching the JSON:', error));
-        }
-
-        function renderTable(data) {
-            const tableHead = document.querySelector('#ban_detail_table thead');
-            const tableBody = document.querySelector('#ban_detail_table tbody');
-            tableHead.innerHTML = `
-            <tr>
-                <th onclick="sortTable('time')">Time</th>
-                <th>User Name</th>
-                <th>Profile Link</th>
-                <th>Rank Level</th>
-            </tr>
-        `;
-            tableBody.innerHTML = '';
-            var master_count = 0;
-            var predator_count = 0;
-
-            let ban_count = {};
-
-            data.forEach(item => {
-                const row = document.createElement('tr');
-
-                if (typeof (ban_count[item.time]) == 'undefined') {
-                    ban_count[item.time] = {
-                        'pred': 0,
-                        'master': 0
-                    }
-                }
-
-                const timeCell = document.createElement('td');
-                timeCell.textContent = item.time;
-                row.appendChild(timeCell);
-
-                const userNameCell = document.createElement('td');
-                userNameCell.textContent = item.user_name;
-                row.appendChild(userNameCell);
-
-                const userLinkCell = document.createElement('td');
-                const userLink = document.createElement('a');
-                userLink.href = item.user_link;
-                userLink.textContent = "Profile Link";
-                userLink.target = "_blank";
-                userLinkCell.appendChild(userLink);
-                row.appendChild(userLinkCell);
-
-                const isPredCell = document.createElement('td');
-                isPredCell.textContent = item.is_pred ? "Predator" : "Master";
-
-                if (item.is_pred) {
-                    ban_count[item.time]['pred'] += 1
-                }
-                else {
-                    ban_count[item.time]['master'] += 1
-                }
-
-                if (item.time > '2024-05-08') {
-                    if (item.is_pred) {
-                        predator_count += 1
-                    }
-                    else {
-                        master_count += 1
-                    }
-                }
-
-                row.appendChild(isPredCell);
-
-                tableBody.appendChild(row);
-            });
-            window.ban_count = ban_count;
-            document.getElementById("total_ban").innerHTML = `<div style="white-space: pre;">
-    🔨Total ban(S21)🔨:</b>${predator_count + master_count}</b>
-     \t\t<img src="Img/apexpredator1.png" style="width: 25px; height: 25px;">Predator: ${predator_count}
-     \t\t<img src="Img/master1.png" style="width: 25px; height: 25px;">Master: ${master_count}
-  </div>`;
-        }
-
-        function renderOtherDataTable(data) {
-            const tableHead = document.querySelector('#ban_list_table thead');
-            const tableBody = document.querySelector('#ban_list_table tbody');
-            tableHead.innerHTML = `
-            <tr>
-                <th>Date</th>
-                <th>Predator</th>
-                <th>Master</th>
-            </tr>
-        `;
-            tableBody.innerHTML = '';
-			const dataArray = Object.entries(window.ban_count);
-			dataArray.sort((a, b) => new Date(b[0]) - new Date(a[0]));
-            var master_count = 0;
-            var predator_count = 0;
-            dataArray.forEach(([date, values]) => {
-                const row = document.createElement('tr');
-                const dateCell = document.createElement('td');
-                dateCell.textContent = date;
-                row.appendChild(dateCell);
-
-                const lieShaCell = document.createElement('td');
-                lieShaCell.textContent = values['pred'];
-
-                row.appendChild(lieShaCell);
-
-                const daShiCell = document.createElement('td');
-                daShiCell.textContent = values['master'];
-
-                row.appendChild(daShiCell);
-                tableBody.appendChild(row)
-            })
-
-        }
-
-        function sortTable(key) {
-            const selectedData = document.getElementById('dataType').value;
-            const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
-            const sortedData = [...data].sort((a, b) => {
-                const dateA = new Date(a[key]);
-                const dateB = new Date(b[key]);
-                return dateA - dateB;
-            });
-            const isAscending = document.querySelector('th').classList.toggle('ascending');
-            if (!isAscending) {
-                sortedData.reverse();
-            }
-            selectedData === 'total_ban_detail.json' ? renderTable(sortedData) : renderOtherDataTable(sortedData);
-        }
-
-        function filterByDate() {
-            const selectedData = document.getElementById('dataType').value;
-            const data = selectedData === 'total_ban_detail.json' ? banData : otherData;
-            const startDate = new Date(document.getElementById('startDate').value);
-            const endDate = new Date(document.getElementById('endDate').value);
-            const filteredData = data.filter(item => {
-                const itemDate = new Date(item.time || item['Date']);
-                return itemDate >= startDate && itemDate <= endDate;
-            });
-            selectedData === 'total_ban_detail.json' ? renderTable(filteredData) : renderOtherDataTable(filteredData);
-        }
     </script>
 </body>
 
