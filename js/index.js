@@ -2,9 +2,8 @@
 $.ajax({
     url: "https://149.248.15.96:5000/bandetail",
     type:"get",
-    dataType:"json",
-    async:true,
-    headers: {'Access-Control-Allow-Origin': "*"},
+    dataType:"jsonp",
+    callback:renderTable,
     success:function(data){
         renderTable(data)
     }
@@ -54,7 +53,7 @@ function renderTable(data) {
         row.appendChild(userLinkCell);
 
         const isPredCell = document.createElement('td');
-        isPredCell.textContent = item.active ? "Predator" : "Master";
+        isPredCell.textContent = item.active == "True" ? "Predator" : "Master";
 
         if (item.active) {
             ban_count[item.date]['pred'] += 1
@@ -83,14 +82,13 @@ function renderTable(data) {
 }
 
 $("#hatstab1").click(function(){
-$.ajax({
+  $.ajax({
     url: "https://149.248.15.96:5000/daily_count",
     type:"get",
-    dataType:"json",
-    async:true,
-    headers: {'Access-Control-Allow-Origin': "*"},
+    dataType:"jsonp",
+    callback:renderOtherDataTable,
     success:function(data){
-        renderOtherDataTable(data)
+      renderOtherDataTable(data)
     }
 })
 })
@@ -172,29 +170,6 @@ function renderOtherDataTable(data) {
         };
         console.log(Math.max(master_daily))
         var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
-
-        var options = {
-          series: [master_daily.reduce((accumulator, current) => accumulator + current, 0), ban_daily.reduce((accumulator, current) => accumulator + current, 0)],
-          chart: {
-          width: 380,
-          type: 'pie',
-        },
-        labels: ['Active', 'banned'],
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }]
-        };
-
-        var chart = new ApexCharts(document.querySelector("#donut"), options);
         chart.render();
 
 }
