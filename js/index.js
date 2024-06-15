@@ -55,7 +55,7 @@ function renderTable(data) {
         const isPredCell = document.createElement('td');
         isPredCell.textContent = item.active == "True" ? "Predator" : "Master";
 
-        if (item.active) {
+        if (item.active == "True") {
             ban_count[item.date]['pred'] += 1
         }
         else {
@@ -63,7 +63,7 @@ function renderTable(data) {
         }
 
         if (item.date > '2024-05-08') {
-            if (item.active) {
+            if (item.active == "True") {
                 predator_count += 1
             }
             else {
