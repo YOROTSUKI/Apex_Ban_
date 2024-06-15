@@ -1,6 +1,6 @@
 
 $.ajax({
-    url: "https://149.248.15.96:5000/bandetail",
+    url: "http://149.248.15.96:5000//bandetail",
     type:"get",
     dataType:"jsonp",
     callback:renderTable,
@@ -83,7 +83,7 @@ function renderTable(data) {
 
 $("#hatstab1").click(function(){
   $.ajax({
-    url: "https://149.248.15.96:5000/daily_count",
+    url: "http://149.248.15.96:5000/daily_count",
     type:"get",
     dataType:"jsonp",
     callback:renderOtherDataTable,
