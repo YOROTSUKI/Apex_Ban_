@@ -1,6 +1,6 @@
 
 $.ajax({
-    url: "https://www.apexmarvin.website:5000/bandetail",
+    url: "https://www.apexmarvin.website:8001/bandetail",
     type:"get",
     dataType:"jsonp",
     callback:renderTable,
@@ -83,7 +83,7 @@ function renderTable(data) {
 
 $("#hatstab1").click(function(){
   $.ajax({
-    url: "https://www.apexmarvin.website:5000/daily_count",
+    url: "https://www.apexmarvin.website:8001/daily_count",
     type:"get",
     dataType:"jsonp",
     callback:renderOtherDataTable,
