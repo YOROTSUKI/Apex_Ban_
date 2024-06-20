@@ -46,7 +46,7 @@ function renderTable(data) {
 
         const userLinkCell = document.createElement('td');
         const userLink = document.createElement('a');
-        userLink.href = item.user_link;
+        userLink.href = item.profile_link;
         userLink.textContent = "Profile Link";
         userLink.target = "_blank";
         userLinkCell.appendChild(userLink);
