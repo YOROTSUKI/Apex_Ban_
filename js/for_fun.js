@@ -2,11 +2,9 @@
 var myArray = [
     'https://www.apexno1.com/', 
     'https://www.4399.com/', 
-    'https://www.baidu.com/', 
-    'https://store.xim.tech/products/xim-matrix', 
     'https://www.respawn.com/', 
-    'https://www.cronusmax.com/home-2/', 
-    'https://www.bilibili.com/video/BV1wT421m7t6'];
+    'https://www.bilibili.com/video/BV1wT421m7t6'
+];
 
 if (window.self !== window.top) {
     let start = new Date();
