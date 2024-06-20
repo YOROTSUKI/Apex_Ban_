@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="X-FRAME-OPTIONS" content="DENY">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
     <title>Ban</title>
     <style>
         table {
@@ -30,14 +29,11 @@
             background-color: #f2f2f2;
             cursor: pointer;
         }
-
-        #clothingnavcontent1,
-        #filters {
+        #clothingnavcontent1,#filters {
             width: 85%;
             margin: 0 auto;
             text-align: center;
         }
-
         #banned {
             width: 20%;
             margin: 0 auto;
@@ -103,29 +99,11 @@
             </div>
         </div>
     </div>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap-4.4.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        var currentDomain = window.location.hostname;
-
-        // 检查域名是否等于 'yorotsuki.github.io'
-        if (currentDomain === 'yorotsuki.github.io') {
-            // 要加载的JavaScript文件列表
-            var scriptsToLoad = [
-                'js/jquery-3.4.1.min.js',
-                'js/popper.min.js',
-                'js/bootstrap-4.4.1.js',
-                'js/index.js'
-            ];
-
-            // 动态加载每个JavaScript文件
-            scriptsToLoad.forEach(function (scriptSrc) {
-                var script = document.createElement('script');
-                script.src = scriptSrc;
-                document.head.appendChild(script);
-            });
-        }
-    </script>
-    
     <script src="js/index.js"></script>
     <script>
 
